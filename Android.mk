@@ -16,8 +16,8 @@
 
 ifeq ($(TARGET_BOARD_PLATFORM), exynos5)
 ifeq ($(TARGET_SLSI_VARIANT), cm)
-ifeq ($(TARGET_SOC), exynos5433)
-exynos5433_dirs := \
+ifeq ($(TARGET_SOC), exynos5260)
+exynos5260_dirs := \
 	mobicore \
 	gralloc \
 	libdisplaymodule \
@@ -27,16 +27,16 @@ exynos5433_dirs := \
 	libsecurepath 
 
 ifeq ($(BOARD_USES_VIRTUAL_DISPLAY), true)
-exynos5433_dirs += \
+exynos5260_dirs += \
 	libvirtualdisplaymodule
 endif
 
 ifeq ($(BOARD_USES_TRUST_KEYMASTER), true)
-exynos5433_dirs += \
+exynos5260_dirs += \
 	libkeymaster
 endif
 
-include $(call all-named-subdir-makefiles,$(exynos5433_dirs))
+include $(call all-named-subdir-makefiles,$(exynos5260_dirs))
 
 endif
 endif
