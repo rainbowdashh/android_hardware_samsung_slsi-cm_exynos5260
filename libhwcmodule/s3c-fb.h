@@ -61,6 +61,8 @@ struct s3c_fb_win_config {
 		S3C_FB_WIN_STATE_DISABLED = 0,
 		S3C_FB_WIN_STATE_COLOR,
 		S3C_FB_WIN_STATE_BUFFER,
+		S3C_FB_WIN_STATE_OTF,
+		S3C_FB_WIN_STATE_UPDATE,
 	} state;
 
 	union {
@@ -107,5 +109,5 @@ struct s3c_fb_win_config_data {
 						struct s3c_fb_user_ion_client)
 #define S3CFB_WIN_CONFIG		_IOW('F', 209, \
 						struct s3c_fb_win_config_data)
-
+#define S3CFB_WIN_PSR_EXIT		_IOW('F', 210, int)
 #endif /* __S3C_FB_H__ */
