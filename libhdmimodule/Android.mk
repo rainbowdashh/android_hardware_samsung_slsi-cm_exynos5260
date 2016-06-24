@@ -39,7 +39,9 @@ else
 ifeq ($(BOARD_USES_NEW_HDMI), true)
 LOCAL_C_INCLUDES += $(TOP)/hardware/samsung_slsi-cm/exynos/libhdmi
 else
+ifeq ($(BOARD_USES_OLD_HDMI), true)
 LOCAL_C_INCLUDES += $(TOP)/hardware/samsung_slsi-cm/exynos/libhdmi_legacy
+endif
 endif
 endif
 
