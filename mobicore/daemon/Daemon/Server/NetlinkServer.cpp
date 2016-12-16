@@ -78,10 +78,9 @@ void NetlinkServer::run(
         src_addr.nl_family = AF_NETLINK;
         src_addr.nl_pid = MC_DAEMON_PID;  /* daemon pid */
         src_addr.nl_groups = 0;  /* not in mcast groups */
-        if (::bind(serverSock, (struct sockaddr *)&src_addr, sizeof(src_addr)) < 0) {
+        if (bind(serverSock, (struct sockaddr *)&src_addr, sizeof(src_addr)) < 0) {
             LOG_ERRNO("Binding to server socket failed, because bind");
             close(serverSock);
-            serverSock = -1;
             break;
         }
 
@@ -91,10 +90,6 @@ void NetlinkServer::run(
         for (;;) {
             // This buffer will be taken over by the connection it was routed to
             nlh = (struct nlmsghdr *)malloc(NLMSG_SPACE(MAX_PAYLOAD));
-            if (nlh == NULL) {
-                LOG_E("Allocation failure");
-                break;
-            }
             memset(&msg, 0, sizeof(msg));
             iov.iov_base = (void *)nlh;
             iov.iov_len = NLMSG_SPACE(MAX_PAYLOAD);
@@ -105,9 +100,9 @@ void NetlinkServer::run(
 
             memset(nlh, 0, NLMSG_SPACE(MAX_PAYLOAD));
 
-            // Read the incoming message and route it to the connection based
-            // on the incoming PID
-            if ((int) (len = recvmsg(serverSock, &msg, 0)) < 0) {
+            // Read the incomming message and route it to the connection based
+            // on the incomming PID
+            if ((len = recvmsg(serverSock, &msg, 0)) < 0) {
                 LOG_ERRNO("recvmsg");
                 break;
             }
@@ -118,8 +113,6 @@ void NetlinkServer::run(
                 break;
             }
         }
-        close(serverSock);
-        serverSock = -1;
     } while (false);
 
     LOG_W("Could not open netlink socket. KernelAPI disabled");
@@ -187,10 +180,7 @@ NetlinkServer::~NetlinkServer(
 {
     connectionMap_t::iterator i;
     // Shut down the server socket
-    if(serverSock != -1) {
-        close(serverSock);
-        serverSock = -1;
-    }
+    close(serverSock);
 
     // Destroy all client connections
     for (i = peerConnections.begin(); i != peerConnections.end(); i++) {
