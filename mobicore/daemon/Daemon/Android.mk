@@ -16,4 +16,3 @@ LOCAL_CFLAGS += -Wno-date-time
 # Internal components
 include $(LOCAL_PATH)/Daemon/Device/Android.mk
 include $(LOCAL_PATH)/Daemon/Server/Android.mk
-include $(LOCAL_PATH)/Daemon/FSD/Android.mk
